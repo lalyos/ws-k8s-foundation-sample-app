@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    run: web
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: web
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        run: web
+    spec:
+      containers:
+      - image: nginx
+        volumeMounts:
+        - name: webvol
+          mountPath: /usr/share/nginx/html/
+        name: web
+        ports:
+        - containerPort: 80
+        resources: {}
+      volumes:
+      - name: webvol
+        configMap:
+            name: webconfig
+
